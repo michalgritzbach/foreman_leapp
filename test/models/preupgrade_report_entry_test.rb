@@ -20,14 +20,15 @@ class PreupgradeReportEntryTest < ActiveSupport::TestCase
       @host = FactoryBot.create(:host)
 
       report = FactoryBot.create(:preupgrade_report)
-      @entry1 = FactoryBot.create(:preupgrade_report_entry, preupgrade_report: report, host: @host)
+      @entry1 = FactoryBot.create(:preupgrade_report_entry, preupgrade_report: report, host: @host,
+        leapp_version: '0.22.0')
       @entry2 = FactoryBot.create(:preupgrade_report_entry, preupgrade_report: report, host: @host, detail: nil)
     end
 
     it do
       details = PreupgradeReportEntry.remediation_details([@entry1.id, @entry2.id], @host.id)
       assert_equal details.size, 1
-      assert_equal details[0], @entry1.detail
+      assert_equal details[0], [@entry1.detail, '0.22.0']
 
       details = PreupgradeReportEntry.remediation_details([@entry1.id, @entry2.id], FactoryBot.create(:host))
       assert_equal details.size, 0

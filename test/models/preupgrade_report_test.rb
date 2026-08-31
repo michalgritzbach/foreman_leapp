@@ -19,6 +19,22 @@ class PreupgradeReportTest < ActiveSupport::TestCase
       end
     end
 
+    it 'stores the leapp version the report was generated with' do
+      data = { 'leapp_run_id' => 'leapp_c13e471c', 'entries' => [sample_entry_1] }
+
+      PreupgradeReport.create_report(host, data, job_invocation, '0.22.0')
+
+      assert_equal ['0.22.0'], PreupgradeReportEntry.where(host: host).pluck(:leapp_version)
+    end
+
+    it 'leaves the leapp version empty when it is not known' do
+      data = { 'leapp_run_id' => 'leapp_c13e471c', 'entries' => [sample_entry_1] }
+
+      PreupgradeReport.create_report(host, data, job_invocation)
+
+      assert_nil PreupgradeReportEntry.where(host: host).first.leapp_version
+    end
+
     it 'no entries' do
       data = { 'leapp_run_id' => 'leapp_c13e471c' }
 
