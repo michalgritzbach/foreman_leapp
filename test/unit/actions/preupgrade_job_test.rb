@@ -40,4 +40,31 @@ module ForemanLeapp
       it { assert_finalize_phase planned_action }
     end
   end
+
+  # Parsing the job output does not need any of the remote execution setup.
+  class PreupgradeJobOutputTest < ActiveSupport::TestCase
+    include Dynflow::Testing
+
+    let(:action) { create_action(Actions::ForemanLeapp::PreupgradeJob) }
+
+    describe '#format_version' do
+      test 'picks the leapp version up from the rpm output' do
+        output = "leapp-0.22.0-1.el9.noarch\n===leap_upgrade_report_start===\n{}\nExit status: 0\n"
+
+        assert_equal '0.22.0', action.send(:format_version, output)
+      end
+
+      test 'ignores other leapp packages' do
+        output = "leapp-upgrade-el8toel9-0.25.0-1.el8.noarch\nleapp-0.22.0-1.el8.noarch\n"
+
+        assert_equal '0.22.0', action.send(:format_version, output)
+      end
+
+      test 'returns nil when the leapp package is not reported' do
+        output = "package leapp is not installed\n===leap_upgrade_report_start===\n{}\n"
+
+        assert_nil action.send(:format_version, output)
+      end
+    end
+  end
 end

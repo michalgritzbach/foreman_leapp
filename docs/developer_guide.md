@@ -76,7 +76,15 @@ leapp preupgrade
 leapp preupgrade --verbose  # Enable verbose logging
 leapp preupgrade --debug    # Enable debug mode
 ```
-For the report sample see the file in `report_samples` folder.
+For the report sample see the files in the `report_samples` folder. `leapp-report.json`
+comes from leapp 0.21, `leapp-report-0.22.json` from leapp 0.22.
+
+Starting with leapp 0.22 the arguments of the `command` remediations are reported
+verbatim, while older leapp quoted them itself
+([leapp-repository#1520](https://github.com/oamg/leapp-repository/pull/1520)).
+The remediation plan is therefore assembled based on the version of the `leapp`
+package the report was collected with, which is stored in
+`preupgrade_report_entries.leapp_version`.
 
 **Upgrade**
 

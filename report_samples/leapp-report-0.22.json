@@ -1,0 +1,441 @@
+{
+  "entries": [
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "remediations": [
+          {
+            "context": "If some of excluded repositories are still required to be used during the upgrade, execute leapp with the --enablerepo option with the repoid of the repository required to be enabled as an argument (the option can be used multiple times).",
+            "type": "hint"
+          }
+        ]
+      },
+      "key": "1b9132cb2362ae7830e48eee7811be9527747de8",
+      "severity": "info",
+      "summary": "The following repositories are not supported by Red Hat and are excluded from the list of repositories used during the upgrade.\n- codeready-builder-for-rhel-9-x86_64-eus-rpms\n- codeready-builder-beta-for-rhel-9-ppc64le-rpms\n- codeready-builder-for-rhel-9-ppc64le-rpms\n- codeready-builder-beta-for-rhel-9-aarch64-rpms\n- codeready-builder-for-rhel-9-aarch64-rpms\n- codeready-builder-for-rhel-9-rhui-rpms\n- codeready-builder-for-rhel-9-ppc64le-eus-rpms\n- codeready-builder-for-rhel-9-aarch64-eus-rpms\n- codeready-builder-for-rhel-9-s390x-eus-rpms\n- rhui-codeready-builder-for-rhel-9-x86_64-rhui-rpms\n- codeready-builder-for-rhel-9-x86_64-rpms\n- rhui-codeready-builder-for-rhel-9-aarch64-rhui-rpms\n- codeready-builder-beta-for-rhel-9-x86_64-rpms\n- codeready-builder-for-rhel-9-s390x-rpms\n- crb\n- codeready-builder-beta-for-rhel-9-s390x-rpms\n- codeready-builder-for-rhel-9-x86_64-rhui-rpms",
+      "title": "Excluded target system repositories",
+      "timeStamp": "2026-05-21T13:47:48.521164Z",
+      "hostname": "localhost.localdomain",
+      "actor": "repositories_blacklist",
+      "id": "41d4243926b6b0632062e49fe513453edac79b27f43113312d2c5a3f2684aeb2",
+      "flags": [
+        "failure"
+      ],
+      "tags": [
+        "repository"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "key": "61eb181bbc56328fbe03b5229d25a8ea5ebdc7a2",
+      "severity": "high",
+      "summary": "The following processors are no longer maintained in RHEL 9:\n     - ATOM_GOLDMONT_D\n",
+      "title": "Leapp detected a processor no longer maintained in the target OS",
+      "timeStamp": "2026-05-21T13:47:50.024681Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_detected_devices_and_drivers",
+      "id": "0bceaadc454e6056316a151b25ebdfc424a603dba6291fea88ad284af70701ca",
+      "flags": [],
+      "tags": [
+        "kernel",
+        "boot"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "leapp upgrade stops with Inhibitor \"Upgrade requires links in root directory to be relative\"",
+            "url": "https://access.redhat.com/solutions/6989732"
+          }
+        ],
+        "remediations": [
+          {
+            "context": [
+              "bash",
+              "-c",
+              "ln -snf \"usr/lib\" \"/lib\" && ln -snf \"usr/lib64\" \"/lib64\" && ln -snf \"var/log/leapp\" \"/leapp-logs\" && ln -snf \"var/log/leapp\" \"/quote'quote\" && ln -snf \"var/log/leapp\" \"/quote'quote'quote\" && ln -snf \"var/log/leapp\" \"/mark!mark\" && ln -snf \"var/log/leapp\" \"/space space\" && ln -snf \"var/log/leapp\" \"/\\$USER\" && ln -snf \"var/log/leapp\" \"/\\`zsh\\`\" && ln -snf \"var/log/leapp\" \"/backslash\\\\backslash\" && ln -snf \"var/log/leapp\" \"/escapedmark\\\\!escapedmark\" && ln -snf \"var/log/leapp\" \"/newline\\\\nnewline\" && ln -snf \"var/log/leapp\" \"/tab\\\\ttab\" && ln -snf \"var/log/leapp\" \"/return\\\\rreturn\" && ln -snf \"var/log/leapp\" \"/hex\\\\xFFhex\""
+            ],
+            "type": "command"
+          }
+        ]
+      },
+      "flags": [
+        "inhibitor"
+      ],
+      "key": "3d895ad37ceaf4157864d439edb6bd75562061fa",
+      "severity": "high",
+      "summary": "After rebooting, parts of the upgrade process can fail if symbolic links in / point to absolute paths.\nPlease change these links to relative ones.",
+      "title": "Upgrade requires links in root directory to be relative",
+      "timeStamp": "2026-05-21T13:47:51.042544Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_root_symlinks",
+      "id": "428be11bb86765a8d1a80fd5d6d2e9e58d9ff05a12b75c122bc8310586de4a2b",
+      "tags": []
+    },
+    {
+      "audience": "sysadmin",
+      "key": "ac7030e05d2ee248d34f08a9fa040b352bc410a3",
+      "severity": "high",
+      "summary": "On legacy (BIOS) systems, GRUB2 core (located in the gap between the MBR and the first partition) cannot be updated during the rpm transaction and Leapp has to initiate the update running \"grub2-install\" after the transaction. No action is needed before the upgrade. After the upgrade, it is recommended to check the GRUB configuration.",
+      "title": "GRUB2 core will be automatically updated during the upgrade",
+      "timeStamp": "2026-05-21T13:47:51.128654Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_grub_core",
+      "id": "03d872939cc6e61ef0282339fd01b26ebd5e8fc416fb26ac00c186041e6835de",
+      "flags": [],
+      "tags": [
+        "boot"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Importing existing VDO volumes to LVM",
+            "url": "https://red.ht/import-existing-vdo-volumes-to-lvm"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "Install the 'vdo' package and re-run upgrade to check for VDO devices requiring conversion or confirm that all VDO devices, if any, are managed by LVM.",
+            "type": "hint"
+          }
+        ]
+      },
+      "flags": [
+        "inhibitor"
+      ],
+      "key": "429a99e13b19a7eebadbb8cb35233d8119bcf255",
+      "severity": "high",
+      "summary": "The check of block devices could not be performed as the 'vdo' package is not installed. All VDO devices must be converted to LVM management prior to the upgrade to prevent the loss of data.",
+      "title": "Cannot perform the VDO check of block devices",
+      "timeStamp": "2026-05-21T13:47:51.887612Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_vdo",
+      "id": "21699162f34e5bd6675fb2d05a42a750463a60dc50d34e1cff4460becea604c9",
+      "tags": [
+        "services",
+        "drivers"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "key": "8fb81863f8413bd617c2a55b69b8e10ff03d7c72",
+      "severity": "info",
+      "summary": "SElinux relabeling will be scheduled as the status is permissive/enforcing.",
+      "title": "SElinux relabeling will be scheduled",
+      "timeStamp": "2026-05-21T13:47:53.630045Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_se_linux",
+      "id": "d51c96844380e938500f8e4ec4790d6d22e9b4b6f3b47990892357fe2c15c80a",
+      "flags": [],
+      "tags": [
+        "selinux",
+        "security"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "remediations": [
+          {
+            "context": "Make sure there are no SElinux related warnings after the upgrade and enable SElinux manually afterwards. Notice: You can ignore the \"/root/tmp_leapp_py3\" SElinux warnings.",
+            "type": "hint"
+          }
+        ]
+      },
+      "key": "39d7183dafba798aa4bbb1e70b0ef2bbe5b1772f",
+      "severity": "low",
+      "summary": "SElinux will be set to permissive mode. Current mode: enforcing. This action is required by the upgrade process to make sure the upgraded system can boot without beinig blocked by SElinux rules.",
+      "title": "SElinux will be set to permissive mode",
+      "timeStamp": "2026-05-21T13:47:53.631756Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_se_linux",
+      "id": "dce92f130a6f8032c7e5506879c4a6e2d3a3ae406d8651fe7c1735aae8fb0283",
+      "flags": [],
+      "tags": [
+        "selinux",
+        "security"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Why Leapp Preupgrade for RHEL 8 to 9 getting \"Possible problems with remote login using root account\" ?",
+            "url": "https://access.redhat.com/solutions/7003083"
+          }
+        ],
+        "related_resources": [
+          {
+            "scheme": "package",
+            "title": "openssh-server"
+          },
+          {
+            "scheme": "file",
+            "title": "/etc/ssh/sshd_config"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "If you depend on remote root logins using passwords, consider setting up a different user for remote administration or adding a comment into the sshd_config next to the \"PermitRootLogin yes\" directive to prevent rpm replacing it during the upgrade.",
+            "type": "hint"
+          }
+        ]
+      },
+      "flags": [
+        "inhibitor"
+      ],
+      "key": "3d21e8cc9e1c09dc60429de7716165787e99515f",
+      "severity": "high",
+      "summary": "OpenSSH configuration file will get updated to RHEL 9 version, no longer allowing root login with password. It is a good practice to use non-root administrative user and non-password authentications, but if you rely on the remote root login, this change can lock you out of this system.",
+      "title": "Possible problems with remote login using root account",
+      "timeStamp": "2026-05-21T13:47:54.257416Z",
+      "hostname": "localhost.localdomain",
+      "actor": "openssh_permit_root_login",
+      "id": "53c3cd09510713d2e1e5b0d7e183dce1e72cfc99e636923809456eefd896bc23",
+      "tags": [
+        "authentication",
+        "security",
+        "network",
+        "services"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "related_resources": [
+          {
+            "scheme": "package",
+            "title": "openssh-server"
+          },
+          {
+            "scheme": "file",
+            "title": "/etc/ssh/sshd_config"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "If you depend on remote root logins using passwords, consider setting up a different user for remote administration. Otherwise you can ignore this message.",
+            "type": "hint"
+          }
+        ]
+      },
+      "key": "e738f78bc8f3a84411a4210e3b609057139d1855",
+      "severity": "high",
+      "summary": "RHEL 9 no longer allows remote root logins, but the server configuration explicitly overrides this default. The configuration file will not be updated and root is stillgoing to be allowed to login with password. This is not recommended and considered as a security risk. ",
+      "title": "Remote root logins globally allowed using password",
+      "timeStamp": "2026-05-21T13:47:54.258658Z",
+      "hostname": "localhost.localdomain",
+      "actor": "openssh_permit_root_login",
+      "id": "d7c092639272ee149e216d168178e4fdf5c076ddbac1d0efe79eac92d23250f0",
+      "flags": [],
+      "tags": [
+        "authentication",
+        "security",
+        "network",
+        "services"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Handling the migration of your custom and third-party applications",
+            "url": "https://red.ht/customize-rhel-upgrade-actors"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "The most simple solution that does not require additional knowledge about the upgrade process is the uninstallation of such packages before the upgrade and installing these (or their newer versions compatible with the target system) back after the upgrade. Also you can just try to upgrade the system on a testing machine (or after the full system backup) to see the result.\nHowever, it is common use case to migrate or upgrade installed third party packages together with the system during the in-place upgrade process. To examine how to customize the process to deal with such packages, follow the documentation in the attached link for more details.",
+            "type": "hint"
+          }
+        ]
+      },
+      "key": "13f0791ae5f19f50e7d0d606fb6501f91b1efb2c",
+      "severity": "high",
+      "summary": "The official solution for in-place upgrades contains instructions for the migration of packages signed by the vendor of the system distribution. Third-party content is not known to the upgrade process and it might need to be handled extra. Third-party packages may be removed automatically during the upgrade if they depend on official distribution content which is not present on the target system - therefore RPM dependencies of such packages cannot be satisfied and hence such packages cannot be installed on the target system.\n\nThe following packages have not been signed by the vendor of the distribution:\n    - leapp\n    - leapp-deps\n    - leapp-upgrade-el8toel9\n    - leapp-upgrade-el8toel9-deps\n    - python3-leapp",
+      "title": "Packages not signed by the distribution vendor found on the system",
+      "timeStamp": "2026-05-21T13:47:54.480745Z",
+      "hostname": "localhost.localdomain",
+      "actor": "distribution_signed_rpm_check",
+      "id": "025eb827a37f53920974c5f428272310661e2368553df808b3f7731d00d0ac0c",
+      "flags": [],
+      "tags": [
+        "sanity"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Changes in firewalld related to Zone Drifting",
+            "url": "https://access.redhat.com/articles/4855631"
+          },
+          {
+            "title": "Leapp Preupgrade check fails with error - \"Inhibitor: Firewalld Configuration AllowZoneDrifting Is Unsupported\".",
+            "url": "https://access.redhat.com/solutions/6969130"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "Set AllowZoneDrifting=no in /etc/firewalld/firewalld.conf",
+            "type": "hint"
+          },
+          {
+            "context": [
+              "sed",
+              "-i",
+              "s/^AllowZoneDrifting=.*/AllowZoneDrifting=no/",
+              "/etc/firewalld/firewalld.conf"
+            ],
+            "type": "command"
+          }
+        ]
+      },
+      "flags": [
+        "inhibitor"
+      ],
+      "key": "5b1cf050e1a877b0358b6e8c612277c591d40c13",
+      "severity": "high",
+      "summary": "Firewalld has enabled configuration option \"AllowZoneDrifting\" which has been removed in RHEL 9. New behavior is as if \"AllowZoneDrifting\" was set to \"no\".",
+      "title": "Firewalld Configuration AllowZoneDrifting Is Unsupported",
+      "timeStamp": "2026-05-21T13:47:55.009835Z",
+      "hostname": "localhost.localdomain",
+      "actor": "firewalld_check_allow_zone_drifting",
+      "id": "09ab1f5678b34ee01db586e7857bba13eafc9cbd86b2ed03bc8d720dbab282b1",
+      "tags": [
+        "sanity",
+        "firewall"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Limiting LVM device visibility and usage",
+            "url": "https://red.ht/limiting-lvm-devices-visibility-and-usage"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "While not required, switching to the LVM devices file from the LVM filter is possible using the following command. The command uses the existing LVM filter to create the system.devices file which is then used instead of the LVM filter. Before running the command, make sure that 'use_devicesfile=1' is set in /etc/lvm/lvm.conf.",
+            "type": "hint"
+          },
+          {
+            "context": [
+              "vgimportdevices"
+            ],
+            "type": "command"
+          }
+        ]
+      },
+      "key": "419ad408c11ef7e8e89a0fb83106988453f362d6",
+      "severity": "info",
+      "summary": "Beginning with RHEL 9, LVM devices file is used by default to select devices used by LVM. Since leapp detected the use of LVM filter in the /etc/lvm/lvm.conf configuration file, the configuration won't be modified to use devices file during the upgrade and the LVM filter will remain in use after the upgrade.",
+      "title": "LVM filter definition detected.",
+      "timeStamp": "2026-05-21T13:47:55.272739Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_lvm",
+      "id": "b29b2b08051d3dfe37ee15b72b33c5c15ea110abd68723cdb063a833d227a616",
+      "flags": [],
+      "tags": []
+    },
+    {
+      "audience": "sysadmin",
+      "key": "9e5088e3c1f371e020ec777c3d86578f4be143cf",
+      "severity": "high",
+      "summary": "Environment variable LEAPP_UNSUPPORTED has been detected. A successful and safe upgrade process cannot be guaranteed. From now on you are continuing at your own risk.\n",
+      "title": "Upgrade is unsupported",
+      "timeStamp": "2026-05-21T13:47:55.684594Z",
+      "hostname": "localhost.localdomain",
+      "actor": "unsupported_upgrade_check",
+      "id": "8e87a3203d2cee4ec00f8b63158762102d0ffdb6782705a2fd3e1a37fd16e1ad",
+      "flags": [],
+      "tags": [
+        "upgrade process",
+        "sanity"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "key": "693963253195f418526f045b6d630a1f4c7a193d",
+      "severity": "info",
+      "summary": "After the upgrade, this system will be automatically registered into Red Hat Lightspeed. To skip the automatic registration, use the '--no-insights-register' command line option or set the LEAPP_NO_INSIGHTS_REGISTER environment variable.",
+      "title": "Automatic registration into Red Hat Lightspeed",
+      "timeStamp": "2026-05-21T13:47:55.820569Z",
+      "hostname": "localhost.localdomain",
+      "actor": "check_insights_auto_register",
+      "id": "8d18a3d007017c171b980a1aeb214465e9389ee126551d8ab1ffbf2a13c518f5",
+      "flags": [],
+      "tags": [
+        "services"
+      ]
+    },
+    {
+      "audience": "sysadmin",
+      "detail": {
+        "external": [
+          {
+            "title": "Leapp upgrade fail with error \"Inhibitor: Missing required answers in the answer file.\"",
+            "url": "https://access.redhat.com/solutions/7035321"
+          }
+        ],
+        "related_resources": [
+          {
+            "scheme": "dialog",
+            "title": "check_vdo.confirm"
+          }
+        ],
+        "remediations": [
+          {
+            "context": "Please register user choices with leapp answer cli command or by manually editing the answerfile.",
+            "type": "hint"
+          },
+          {
+            "context": [
+              "leapp",
+              "answer",
+              "--section",
+              "check_vdo.confirm=True"
+            ],
+            "type": "command"
+          }
+        ]
+      },
+      "flags": [
+        "inhibitor"
+      ],
+      "key": "2f9802dc91315806c7cdc3c18d7b74f2a2383285",
+      "severity": "high",
+      "summary": "One or more sections in answerfile are missing user choices: check_vdo.confirm\nFor more information consult https://red.ht/leapp-dialogs.",
+      "title": "Missing required answers in the answer file",
+      "timeStamp": "2026-05-21T13:47:56.358174Z",
+      "hostname": "localhost.localdomain",
+      "actor": "verify_check_results",
+      "id": "cee979d7a92fbbf57255851b83d42333f23cb5d8a1a8be51605cb1120940d3b4",
+      "tags": []
+    },
+    {
+      "audience": "sysadmin",
+      "flags": [],
+      "key": "ceb4a05b348658e87d9a7a7b1270dedc24fb0014",
+      "severity": "high",
+      "summary": "{\"details\": \"details about the issue if we have any\", \"hint\": \"possible hint here, if we know about any\", \"whatever\": \"else fields\", \"note\": \"all these details in \\\"details\\\" object are free form key:value\"}",
+      "title": "Here is an error title",
+      "timeStamp": "2026-05-21T13:47:56.359831Z",
+      "hostname": "localhost.localdomain",
+      "actor": "verify_check_results",
+      "id": "a0ede1c25aeaa52384f438d7092bb0a4ebba3a31b193092c9ee91b89a2f63af3",
+      "tags": []
+    }
+  ],
+  "leapp_run_id": "960e4752-6358-4d03-bc08-0d3792a57004"
+}

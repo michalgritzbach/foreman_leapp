@@ -3,6 +3,9 @@
 module Actions
   module ForemanLeapp
     class PreupgradeJob < Actions::EntryAction
+      # The `rpm -q leapp` line of the job output, e.g. leapp-0.21.0-1.el8.noarch
+      LEAPP_NVR = /^leapp-(\d[\d.]*)/.freeze
+
       def self.subscribe
         Actions::RemoteExecution::RunHostJob
       end
@@ -16,9 +19,11 @@ module Actions
 
       def finalize(*_args)
         host = Host.find(input[:host_id])
-        leapp_report = format_output(task.main_action.continuous_output.humanize)
+        job_output = task.main_action.continuous_output.humanize
+        leapp_report = format_output(job_output)
 
-        PreupgradeReport.create_report(host, leapp_report, input[:job_invocation_id])
+        PreupgradeReport.create_report(host, leapp_report, input[:job_invocation_id],
+          format_version(job_output))
       end
 
       private
@@ -30,6 +35,12 @@ module Actions
                            .reject(&:empty?)
                            .join('')
         JSON.parse(output)
+      end
+
+      # The version of the leapp package the report was generated with. It drives
+      # how the remediation commands from the report have to be quoted.
+      def format_version(job_output)
+        job_output[LEAPP_NVR, 1]
       end
     end
   end

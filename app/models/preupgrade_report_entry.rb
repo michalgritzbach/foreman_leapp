@@ -50,8 +50,10 @@ class PreupgradeReportEntry < ApplicationRecord
     ))
   }
 
+  # Returns [detail, leapp_version] pairs. The leapp version is needed because
+  # the quoting of the remediation commands differs between leapp versions.
   def self.remediation_details(remediation_ids, host)
-    where(id: remediation_ids, host: host).where.not(detail: nil).pluck(:detail)
+    where(id: remediation_ids, host: host).where.not(detail: nil).pluck(:detail, :leapp_version)
   end
 
   def self.search_yes_no_fields(key, operator, value)

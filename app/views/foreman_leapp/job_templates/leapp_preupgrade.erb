@@ -27,6 +27,8 @@ template_inputs:
 
 <%= render_template 'Check Leapp' %>
 
+rpm -q leapp
+
 rm -f /var/log/leapp/leapp-report.json
 leapp preupgrade <%= options_string %>
 
